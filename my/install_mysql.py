@@ -29,6 +29,7 @@ def _createUser():
     for line in ex("whoami")[0]:
         user = strip(line)
     
+    user = "edlab"
     ex('echo "export PATH=%s:\\$PATH" >> ~/.profile'%(join(USR_LOCAL, "mysql", "bin")))
     ex("sudo ln -s /usr/local/mysql/lib/libmysqlclient.18.dylib /usr/lib/libmysqlclient.18.dylib")
     ex('echo "export DYLD_LIBRARY_PATH=%s/mysql/lib/" >> ~/.profile'%USR_LOCAL)

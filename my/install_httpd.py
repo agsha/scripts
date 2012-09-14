@@ -18,6 +18,10 @@ HTTPD_DIR = "httpd-2.4.3"
 MOD_WSGI_URL = "http://modwsgi.googlecode.com/files/mod_wsgi-3.3.tar.gz"
 MOD_WSGI_DIR = "mod_wsgi"
 
+def setpath():
+    exec_command('sudo cat profile >> /etc/profile')
+    exec_command('source /etc/profile')
+
 def downloadHttpd():
     chdir(DOWNLOAD_DIR)
     exec_command("curl -o httpd-2.4.2.tar.gz -L %s"%HTTPD_URL)
@@ -29,8 +33,6 @@ def _extractHttpd():
     exec_command("%s --prefix=%s"%(join(DOWNLOAD_DIR, HTTPD_DIR, "configure"), join(USR_LOCAL, "apache2")))
     exec_command("make")
     exec_command("sudo make install")
-    exec_command('echo "export PATH=%s:\\$PATH" >> ~/.profile'%(join(USR_LOCAL, "apache2", "bin")))
-    exec_command('echo "alias rs=\\"sudo /usr/local/apache2/bin/apachectl -k  restart\\"" >> ~/.profile')
 
     
     
@@ -46,8 +48,6 @@ def _extractPcre():
     exec_command("%s --prefix=%s"%(join(DOWNLOAD_DIR, PCRE_DIR, "configure"), join(USR_LOCAL, PCRE_DIR)))
     exec_command("make")
     exec_command("sudo make install")
-    exec_command('echo "export PATH=%s:\\$PATH" >> ~/.profile'%join(USR_LOCAL, PCRE_DIR, "bin"))
-    exec_command('source ~/.profile')
 
 def _downloadModWsgi():
     chdir(DOWNLOAD_DIR)
@@ -62,6 +62,7 @@ def _extractModWsgi():
     
     
 def main():
+    setpath()
     _downloadPcre()
     _extractPcre()
     downloadHttpd()

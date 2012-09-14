@@ -1,0 +1,6 @@
+
+set PATH=/usr/local/pcre-8.20/:/usr/local/apache2/bin:/usr/local/mysql/bin:$PATH
+
+alias rs="sudo /usr/local/apache2/bin/apachectl -k  restart"
+
+#export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
