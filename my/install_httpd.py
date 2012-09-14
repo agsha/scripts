@@ -12,7 +12,7 @@ from os.path import expanduser
 DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
 USR_LOCAL = abspath("/usr/local")
 PCRE_URL = "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.20.tar.gz"
-HTTPD_URL = "http://apache.cs.utah.edu//httpd/httpd-2.2.23.tar.gz"
+HTTPD_URL = "http://apache.cs.utah.edu//httpd/httpd-2.4.3.tar.gz"
 PCRE_DIR = "pcre-8.20"
 HTTPD_DIR = "httpd-2.4.3"
 MOD_WSGI_URL = "http://modwsgi.googlecode.com/files/mod_wsgi-3.3.tar.gz"
@@ -47,6 +47,7 @@ def _extractPcre():
     exec_command("make")
     exec_command("sudo make install")
     exec_command('echo "export PATH=%s:\\$PATH" >> ~/.profile'%join(USR_LOCAL, PCRE_DIR, "bin"))
+    exec_command('source ~/.profile')
 
 def _downloadModWsgi():
     chdir(DOWNLOAD_DIR)
