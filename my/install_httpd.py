@@ -12,9 +12,9 @@ from os.path import expanduser
 DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
 USR_LOCAL = abspath("/usr/local")
 PCRE_URL = "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.20.tar.gz"
-HTTPD_URL = "http://www.alliedquotes.com/mirrors/apache//httpd/httpd-2.4.2.tar.gz"
+HTTPD_URL = "http://apache.cs.utah.edu//httpd/httpd-2.2.23.tar.gz"
 PCRE_DIR = "pcre-8.20"
-HTTPD_DIR = "httpd-2.4.2"
+HTTPD_DIR = "httpd-2.4.3"
 MOD_WSGI_URL = "http://modwsgi.googlecode.com/files/mod_wsgi-3.3.tar.gz"
 MOD_WSGI_DIR = "mod_wsgi"
 
