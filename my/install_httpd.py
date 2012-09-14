@@ -58,7 +58,6 @@ def _extractModWsgi():
 
 
 def main():
-    setpath()
     _downloadPcre()
     _extractPcre()
     downloadHttpd()
