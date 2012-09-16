@@ -17,7 +17,7 @@ MOD_WSGI_DIR = "mod_wsgi"
 
 def setpath():
     exec_command('cat profile | sudo tee -a /etc/profile')
-    exec_command('source /etc/profile')
+    exec_command('sudo source /etc/profile')
 
 def setvimrc():
     exec_command('sudo cp edlabvimrc /usr/share/vim')
