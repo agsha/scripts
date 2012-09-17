@@ -30,7 +30,19 @@ def setgit():
     raw_input( "i AM USING EMAIL:%s AND NAME:%s FOR YOUR GIT. iF WRONG, THEN PRESS ctrl-c NOW AND RERUN THIS SCRIPT (PYTHON INSTALL_PATH.PY)"%(email, name))
     exec_command('git config --global user.email "%s"'%email)
     exec_command('git config --global user.name "%s"'%name)
+
+def installpathogen():
+    exec_command('mkdir ~/.vim')
+    exec_command('mkdir ~/.vim/undodir')
+    exec_command('mkdir  -p ~/.vim/autoload ~/.vim/bundle')
+    exec_command('curl -so ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim')
+    chdir(join(HOME, '.vim', 'bundle'))
+    exec_command('git clone https://github.com/kien/ctrlp.vim.git')
+    chdir(join(HOME, 'projects', 'apps-server-computer-set-up-scripts', 'my'))
+    exec_command('cp vimrc-ctrlp vimrc-machine-specific vimrc-pathogen vimrc-project-nlt ~/.vim')
+
 if __name__ == '__main__':
     setgit()
     setpath()
     setvimrc()
+    installpathogen()

@@ -407,3 +407,7 @@ function! <SID>BufcloseCloseIt()
      execute("bdelete! ".l:currentBufNum)
    endif
 endfunction
+
+source ~/.vim/vimrc-pathogen
+source ~/.vim/vimrc-ctrlp
+source ~/.vim/vimrc-machine-specific

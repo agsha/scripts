@@ -1,0 +1,2 @@
+set tags+=~/.vim/tags/projects%nlt
+set path+=~/projects/nlt
