@@ -13,28 +13,28 @@ DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
 USR_LOCAL = abspath("/usr/local")
 
 def _installDjango():
-    exec_command("pip install Django")
+    exec_command("sudo pip install Django")
 
 def _installHayStack():
-    exec_command("pip install django-haystack")
+    exec_command("sudo pip install django-haystack")
 
 def _installMySqlDb():
-    exec_command("pip install MySQL-python")
+    exec_command("sudo pip install MySQL-python")
 
 def _installPySolr():
-    exec_command("pip install pysolr")
+    exec_command("sudo pip install pysolr")
 
 def _installBoto():
-    exec_command("pip install boto")
+    exec_command("sudo pip install boto")
 
 def _installPiston():
-    exec_command("pip install django-piston")
+    exec_command("sudo pip install django-piston")
 
 def _installPyCrypto():
-    exec_command("pip install pycrypto")
+    exec_command("sudo pip install pycrypto")
 
 def _installSimpleJson():
-    exec_command("pip install simplejson")
+    exec_command("sudo pip install simplejson")
 
 def main():
     _installDjango()
