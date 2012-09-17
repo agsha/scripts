@@ -10,7 +10,7 @@ import re
 import os
 
 DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
-HOME_DIR = abspath(expanduser("~"))
+HOME_DIR = abspath(expanduser("~/projects"))
 USR_LOCAL = abspath("/usr/local")
 
 def _downloadVialogues():
@@ -23,15 +23,15 @@ def _downloadDjangoCas():
 
 def _extractVialogues():
     chdir(join(HOME_DIR, "projects", "vialogues_code"))
-    exec_command("ln -s django-cas apps/accounts")
+    exec_command("ln -s %s -cas apps/accounts"%join(HOME_DIR, "projects", "django-cas"))
     exec_command("touch debug.log")
     exec_command("chmod go+rwx debug.log")
     exec_command("cp settings.py.development settings.py")
     exec_command("python manage.py syncdb")
     exec_command("python bootstrap.py")
-    
 
-def main():    
+
+def main():
     _downloadDjangoCas()
     _downloadVialogues()
     _extractVialogues()

@@ -6,6 +6,7 @@ import re
 import os
 from os.path import expanduser
 DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
+HOME = abspath(expanduser("~"))
 USR_LOCAL = abspath("/usr/local")
 PCRE_URL = "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.20.tar.gz"
 HTTPD_URL = "http://apache.cs.utah.edu//httpd/httpd-2.4.3.tar.gz"
@@ -16,13 +17,20 @@ MOD_WSGI_DIR = "mod_wsgi"
 
 
 def setpath():
-    exec_command('cat profile | sudo tee -a /etc/profile')
-    exec_command('sudo source /etc/profile')
+    exec_command('touch %s'%join(HOME, '.bash_profile'))
+    exec_command('cat profile | tee -a %s'%join(HOME, '.bash_profile'))
+    exec_command('source %s'%join(HOME, '.bash_profile'))
 
 def setvimrc():
-    exec_command('sudo cp edlabvimrc /usr/share/vim')
-    exec_command('echo "source /usr/share/vim/edlabvimrc" | sudo tee -a /usr/share/vim/vimrc')
+    exec_command('cp edlabvimrc %s'%join(HOME, '.vimrc'))
 
+def setgit():
+    email = raw_input("Enter your email like you want it in git(Example: pgarg@gmail.com):\n")
+    name  = raw_input("Enter your name like you want it in git(Example: Pranav Garg):\n")
+    raw_input( "i AM USING EMAIL:%s AND NAME:%s FOR YOUR GIT. iF WRONG, THEN PRESS ctrl-c NOW AND RERUN THIS SCRIPT (PYTHON INSTALL_PATH.PY)"%(email, name))
+    exec_command('git config --global user.email "%s"'%email)
+    exec_command('git config --global user.name "%s"'%name)
 if __name__ == '__main__':
+    setgit()
     setpath()
     setvimrc()

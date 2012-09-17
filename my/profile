@@ -1,7 +1,9 @@
 
-set PATH=/usr/local/pcre-8.20/bin:/usr/local/apache2/bin:/usr/local/mysql/bin:$PATH
+export PATH=/usr/local/pcre-8.20/bin:/usr/local/apache2/bin:/usr/local/mysql/bin:/usr/local/ctags-exuberant/bin/:$PATH
 
 alias rs="sudo /usr/local/apache2/bin/apachectl -k  restart"
+
+source ~/VIRT_ENV/bin/activate
 
 #export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
 
