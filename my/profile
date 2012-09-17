@@ -1,6 +1,8 @@
 
 export PATH=/usr/local/pcre-8.20/bin:/usr/local/apache2/bin:/usr/local/mysql/bin:/usr/local/ctags-exuberant/bin/:$PATH
 
+PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+
 alias rs="sudo /usr/local/apache2/bin/apachectl -k  restart"
 
 source ~/VIRT_ENV/bin/activate

@@ -16,7 +16,7 @@ def _installVirtualEnv():
     exec_command("sudo pip install virtualenv")
     #FIXME: port for linux also
     chdir("/Library/Python/2.7/site-packages")
-    exec_command("python virtualenv.py ~/VIRT_ENV")
+    exec_command("sudo python virtualenv.py ~/VIRT_ENV")
 
 
 def main():
