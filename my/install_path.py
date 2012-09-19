@@ -25,6 +25,7 @@ def setvimrc():
     exec_command('cp edlabvimrc %s'%join(HOME, '.vimrc'))
 
 def setgit():
+    exec_command("git config --global color.ui auto")
     email = raw_input("\n\n\n\n\n\nEnter your email like you want it in git(Example: pgarg@gmail.com):\n")
     name  = raw_input("\n\n\n\n\n\nEnter your name like you want it in git(Example: Pranav Garg):\n")
     raw_input( "i AM USING EMAIL:%s AND NAME:%s FOR YOUR GIT. iF WRONG, THEN PRESS ctrl-c NOW AND RERUN THIS SCRIPT (PYTHON INSTALL_PATH.PY)"%(email, name))
@@ -44,5 +45,5 @@ def installpathogen():
 if __name__ == '__main__':
     setgit()
     setpath()
-    setvimrc()
+  #  setvimrc()
     installpathogen()
