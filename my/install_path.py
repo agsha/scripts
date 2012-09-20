@@ -1,4 +1,4 @@
-
+import sys
 from Test import exec_command
 from os.path import join, abspath
 from os import chdir, getcwd
@@ -42,8 +42,16 @@ def installpathogen():
     chdir(join(HOME, 'projects', 'apps-server-computer-set-up-scripts', 'my'))
     exec_command('cp vimrc-ctrlp vimrc-machine-specific vimrc-pathogen vimrc-project-nlt ~/.vim')
 
-if __name__ == '__main__':
+def main():
     setgit()
     setpath()
   #  setvimrc()
     installpathogen()
+
+if __name__ == '__main__':
+    method = 'main'
+    if len(sys.argv) > 1 :
+        method = sys.argv[1]
+        globals()[sys.argv[1]]()
+    else:
+        main()

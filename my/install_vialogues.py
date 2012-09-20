@@ -8,9 +8,10 @@ from os.path import join, abspath, expanduser
 from os import chdir, getcwd
 import re
 import os
+import sys
 
 DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
-HOME_DIR = abspath(expanduser("~/projects"))
+HOME_DIR = abspath(expanduser("~"))
 USR_LOCAL = abspath("/usr/local")
 
 def _downloadVialogues():
@@ -23,7 +24,7 @@ def _downloadDjangoCas():
 
 def _extractVialogues():
     chdir(join(HOME_DIR, "projects", "vialogues_code"))
-    exec_command("ln -s %s -cas apps/accounts"%join(HOME_DIR, "projects", "django-cas"))
+    exec_command("ln -s %s apps/accounts"%join(HOME_DIR, "projects", "django-cas"))
     exec_command("touch debug.log")
     exec_command("chmod go+rwx debug.log")
     exec_command("cp settings.py.development settings.py")
@@ -37,4 +38,9 @@ def main():
     _extractVialogues()
 
 if __name__ == '__main__':
-    main()
+    method = 'main'
+    if len(sys.argv) > 1 :
+        method = sys.argv[1]
+        globals()[sys.argv[1]]()
+    else:
+        main()
