@@ -11,12 +11,13 @@ source ~/VIRT_ENV/bin/activate
 #export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
 
 export CLICOLOR=1
-COLOR_BOLD="\[\e[1m\]"
-COLOR_DEFAULT="\[\e[0m\]"
+export COLOR_BOLD="\[\e[1m\]"
+export COLOR_DEFAULT="\[\e[0m\]"
 
-HISTSIZE=512
-HISTFILESIZE=40960
-HISTCONTROL=ignoredups
-HISTIGNORE=?:??
-PROMPT_COMMAND='history -a'
-INPUTRC=~/.inputrc
+export HISTSIZE=512
+export HISTFILESIZE=40960
+export HISTCONTROL=ignoredups
+export HISTIGNORE=?:??
+export PROMPT_COMMAND='history -a'
+export INPUTRC=~/.inputrc
+export GREP_OPTIONS='--color=auto'
