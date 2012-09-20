@@ -36,6 +36,14 @@ def _installPyCrypto():
 def _installSimpleJson():
     exec_command("sudo pip install simplejson")
 
+def _installMechanize():
+    exec_command("sudo pip install mechanize")
+
+def _installMemcache():
+    exec_command("sudo pip install python-memcached")
+
+def _installDjangoGuardian():
+    exec_command("sudo pip install django-guardian")
 def main():
     _installDjango()
     _installHayStack()
@@ -45,6 +53,9 @@ def main():
     _installPiston()
     _installSimpleJson()
     _installPyCrypto()
+    _installMechanize()
+    _installMemcache()
+    _installDjangoGuardian()
 
 if __name__ == '__main__':
     main()
