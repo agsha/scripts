@@ -31,6 +31,9 @@ def setgit():
     raw_input( "i AM USING EMAIL:%s AND NAME:%s FOR YOUR GIT. iF WRONG, THEN PRESS ctrl-c NOW AND RERUN THIS SCRIPT (PYTHON INSTALL_PATH.PY)"%(email, name))
     exec_command('git config --global user.email "%s"'%email)
     exec_command('git config --global user.name "%s"'%name)
+    chdir(HOME)
+    exec_command('curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -O')
+
 
 def installpathogen():
     exec_command('mkdir ~/.vim')

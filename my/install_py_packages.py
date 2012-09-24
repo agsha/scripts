@@ -44,6 +44,10 @@ def _installMemcache():
 
 def _installDjangoGuardian():
     exec_command("sudo pip install django-guardian")
+
+def _installBeautifulSoup();
+    exec_command("sudo pip install beautifulsoup==3.2.0")
+
 def main():
     _installDjango()
     _installHayStack()
@@ -56,6 +60,7 @@ def main():
     _installMechanize()
     _installMemcache()
     _installDjangoGuardian()
+    _installBeautifulSoup()
 
 if __name__ == '__main__':
     main()

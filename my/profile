@@ -7,6 +7,7 @@ PS1='\[\e[1;35m\][\u@\h \W]\$\[\e[0m\] '
 alias rs="sudo /usr/local/apache2/bin/apachectl -k  restart"
 
 source ~/VIRT_ENV/bin/activate
+source git-completion.bash 
 
 #export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
 
