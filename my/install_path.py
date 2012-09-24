@@ -18,7 +18,7 @@ MOD_WSGI_DIR = "mod_wsgi"
 
 def setpath():
     exec_command('touch %s'%join(HOME, '.bash_profile'))
-    exec_command('cat profile | tee -a %s'%join(HOME, '.bash_profile'))
+    exec_command('cat ~/projects/apps-server-computer-set-up-scripts/profile | tee -a %s'%join(HOME, '.bash_profile'))
     exec_command('source %s'%join(HOME, '.bash_profile'))
 
 def setvimrc():
@@ -48,7 +48,7 @@ def installpathogen():
 def main():
     setgit()
     setpath()
-  #  setvimrc()
+    setvimrc()
     installpathogen()
 
 if __name__ == '__main__':

@@ -45,7 +45,7 @@ def _installMemcache():
 def _installDjangoGuardian():
     exec_command("sudo pip install django-guardian")
 
-def _installBeautifulSoup();
+def _installBeautifulSoup():
     exec_command("sudo pip install beautifulsoup==3.2.0")
 
 def main():
