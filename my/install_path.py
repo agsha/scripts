@@ -18,7 +18,7 @@ MOD_WSGI_DIR = "mod_wsgi"
 
 def setpath():
     exec_command('touch %s'%join(HOME, '.bash_profile'))
-    exec_command('cat ~/projects/apps-server-computer-set-up-scripts/profile | tee -a %s'%join(HOME, '.bash_profile'))
+    exec_command('cat ~/projects/apps-server-computer-set-up-scripts/my/profile | tee -a %s'%join(HOME, '.bash_profile'))
     exec_command('source %s'%join(HOME, '.bash_profile'))
 
 def setvimrc():
@@ -33,7 +33,7 @@ def setgit():
     exec_command('git config --global user.name "%s"'%name)
     chdir(HOME)
     exec_command('curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -O')
-
+    chdir(join(HOME, "projects/apps-server-computer-set-up-scripts/my"))
 
 def installpathogen():
     exec_command('mkdir ~/.vim')
