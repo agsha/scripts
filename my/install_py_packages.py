@@ -36,6 +36,7 @@ def _installPyCrypto():
 def _installSimpleJson():
     exec_command("sudo pip install simplejson")
 
+############## for nlt ##########################
 def _installMechanize():
     exec_command("sudo pip install mechanize")
 
@@ -47,6 +48,11 @@ def _installDjangoGuardian():
 
 def _installBeautifulSoup():
     exec_command("sudo pip install beautifulsoup==3.2.0")
+
+######## for researchbroker #######################
+def _installOauth2():
+    exec_command("sudo pip install oauth2)
+
 
 def main():
     _installDjango()
