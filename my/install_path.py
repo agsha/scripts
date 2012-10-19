@@ -16,10 +16,12 @@ MOD_WSGI_URL = "http://modwsgi.googlecode.com/files/mod_wsgi-3.3.tar.gz"
 MOD_WSGI_DIR = "mod_wsgi"
 
 
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+
 def setpath():
     exec_command('touch %s'%join(HOME, '.bash_profile'))
-    exec_command('cat ~/projects/apps-server-computer-set-up-scripts/my/profile | tee -a %s'%join(HOME, '.bash_profile'))
-    exec_command('source %s'%join(HOME, '.bash_profile'))
+    exec_command('cat %s | tee -a %s'%(join(PROJECT_ROOT, "profile"), join(HOME, '.bash_profile')))
+    #exec_command('source %s'%join(HOME, '.bash_profile'))
 
 def setvimrc():
     exec_command('cp edlabvimrc %s'%join(HOME, '.vimrc'))
@@ -33,7 +35,7 @@ def setgit():
     exec_command('git config --global user.name "%s"'%name)
     chdir(HOME)
     exec_command('curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -O')
-    chdir(join(HOME, "projects/apps-server-computer-set-up-scripts/my"))
+    chdir(PROJECT_ROOT)
 
 def installpathogen():
     exec_command('mkdir ~/.vim')
@@ -42,14 +44,14 @@ def installpathogen():
     exec_command('curl -so ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim')
     chdir(join(HOME, '.vim', 'bundle'))
     exec_command('git clone https://github.com/kien/ctrlp.vim.git')
-    chdir(join(HOME, 'projects', 'apps-server-computer-set-up-scripts', 'my'))
+    chdir(PROJECT_ROOT)
     exec_command('cp vimrc-ctrlp vimrc-machine-specific vimrc-pathogen vimrc-project-nlt ~/.vim')
 
 def main():
     setgit()
     setpath()
-    setvimrc()
-    installpathogen()
+    #setvimrc()
+    #installpathogen()
 
 if __name__ == '__main__':
     method = 'main'

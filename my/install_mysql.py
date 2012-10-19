@@ -33,7 +33,9 @@ def _createUser():
     ex("sudo ln -s /usr/local/mysql/lib/libmysqlclient.18.dylib /usr/lib/libmysqlclient.18.dylib")
     ex("mysql -u root --execute \"create user '%s'@'localhost'\""%user)
     ex("mysqladmin --user=root create vialogues")
+    ex("mysqladmin --user=root create nlt")
     ex("mysql -u root --execute \"GRANT ALL ON vialogues.* TO '%s'@'localhost';\""%user)
+    ex("mysql -u root --execute \"GRANT ALL ON nlt.* TO '%s'@'localhost';\""%user)
     pass
 
 def mySqlToDownloadsDir():

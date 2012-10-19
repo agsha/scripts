@@ -20,11 +20,11 @@ MOD_WSGI_DIR = "mod_wsgi"
 
 def downloadHttpd():
     chdir(DOWNLOAD_DIR)
-    exec_command("curl -o httpd-2.4.2.tar.gz -L %s"%HTTPD_URL)
+    exec_command("curl -o httpd-2.4.3.tar.gz -L %s"%HTTPD_URL)
 
 def _extractHttpd():
     chdir(DOWNLOAD_DIR)
-    exec_command("tar xvzf httpd-2.4.2.tar.gz -C %s"%DOWNLOAD_DIR)
+    exec_command("tar xvzf httpd-2.4.3.tar.gz -C %s"%DOWNLOAD_DIR)
     chdir(join(DOWNLOAD_DIR, HTTPD_DIR))
     exec_command("%s --prefix=%s"%(join(DOWNLOAD_DIR, HTTPD_DIR, "configure"), join(USR_LOCAL, "apache2")))
     exec_command("make")
@@ -58,9 +58,9 @@ def _extractModWsgi():
 
 
 def main():
-    _downloadPcre()
+    #_downloadPcre()
     _extractPcre()
-    downloadHttpd()
+    #downloadHttpd()
     _extractHttpd()
     _downloadModWsgi()
     _extractModWsgi()

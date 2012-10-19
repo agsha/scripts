@@ -9,6 +9,9 @@ alias rs="sudo /usr/local/apache2/bin/apachectl -k  restart"
 source ~/VIRT_ENV/bin/activate
 source git-completion.bash 
 
+export GREP_OPTIONS='--color=always'
+export GREP_COLOR='7'
+
 #export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
 
 export CLICOLOR=1
