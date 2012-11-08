@@ -58,9 +58,9 @@ def _extractModWsgi():
 
 
 def main():
-    #_downloadPcre()
+    _downloadPcre()
     _extractPcre()
-    #downloadHttpd()
+    downloadHttpd()
     _extractHttpd()
     _downloadModWsgi()
     _extractModWsgi()
