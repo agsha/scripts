@@ -51,7 +51,7 @@ def _installBeautifulSoup():
 
 ######## for researchbroker #######################
 def _installOauth2():
-    exec_command("sudo pip install oauth2)
+    exec_command("sudo pip install oauth2")
 
 
 def main():
