@@ -18,7 +18,7 @@ MYSQL_32_URL = "http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.25-osx10.
 USR_LOCAL = abspath("/usr/local")
 
 surveysidekick = "surveysidekick"
-researchbroker = "reserachbroker"
+researchbroker = "researchbroker"
 vialogues = "vialogues"
 nlt = "nlt"
 cas = "cas"
@@ -47,7 +47,7 @@ def main():
     _createDb(surveysidekick)
     _createDb(vialogues)
     _createDb(cas)
-    
+
 
 if __name__ == '__main__':
     method = 'main'
