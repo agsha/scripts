@@ -10,6 +10,7 @@ from os import chdir, getcwd
 import re
 from string import strip
 import os
+import sys
 from os.path import expanduser
 DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
 MYSQL_64_URL = "http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.25-osx10.6-x86_64.tar.gz/from/http://mysql.mirrors.pair.com/"
@@ -25,32 +26,27 @@ def is64Bit():
         else:
             raise Exception("Cant detect if cpu is 32 bit or 64 bit")
 
-def _createUser():
-    for line in ex("whoami")[0]:
-        user = strip(line)
-
+def _createUser(project):
     user = "edlab"
     ex("sudo ln -s /usr/local/mysql/lib/libmysqlclient.18.dylib /usr/lib/libmysqlclient.18.dylib")
     ex("mysql -u root --execute \"create user '%s'@'localhost'\""%user)
-    ex("mysqladmin --user=root create vialogues")
-    ex("mysqladmin --user=root create nlt")
-    ex("mysql -u root --execute \"GRANT ALL ON vialogues.* TO '%s'@'localhost';\""%user)
-    ex("mysql -u root --execute \"GRANT ALL ON nlt.* TO '%s'@'localhost';\""%user)
+    ex("mysqladmin --user=root drop %s"%project)
+    ex("mysqladmin --user=root create %s"%project)
+    ex("mysql -u root --execute \"GRANT ALL ON %s.* TO '%s'@'localhost';\""%(project, user))
     pass
 
-def mySqlToDownloadsDir():
-    chdir(DOWNLOAD_DIR)
-    url = MYSQL_32_URL
-    if is64Bit():
-        url = MYSQL_64_URL
-    ex("curl -o mysql-5.5.25-osx10.6-x86_64.tar.gz -L %s"%url)
-    ex("sudo tar xvzf mysql-5.5.25-osx10.6-x86_64.tar.gz -C %s"%USR_LOCAL)
-    ex("sudo ln -s %s/mysql-5.5.25-osx10.6-x86_64.tar.gz %s/mysql"%(USR_LOCAL, USR_LOCAL))
-    ex('echo "export PATH=\\$PATH:%s" >> ~/.bash_profile'%(join(USR_LOCAL, "mysql", "bin")))
-    ex('echo "export DYLD_LIBRARY_PATH=%s/mysql/lib/" >> ~/.bash_profile'%USR_LOCAL)
-
 def main():
-    _createUser()
+    _createUser("nlt")
+    _createUser("researchbroker")
+    _createUser("surveysidekick")
+    _createUser("vialogues")
+    _createUser("cas")
+    
 
 if __name__ == '__main__':
-    main()
+    method = 'main'
+    if len(sys.argv) > 1 :
+        method = sys.argv[1]
+        globals()[sys.argv[1]]()
+    else:
+        main()
