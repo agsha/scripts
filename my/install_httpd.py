@@ -9,7 +9,7 @@ from os import chdir, getcwd
 import re
 import os
 import sys
-from os.path import expanduser
+from os.path import expanduser, exists
 DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
 USR_LOCAL = abspath("/usr/local")
 PCRE_URL = "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.20.tar.gz"
@@ -20,8 +20,9 @@ MOD_WSGI_URL = "http://modwsgi.googlecode.com/files/mod_wsgi-3.3.tar.gz"
 MOD_WSGI_DIR = "mod_wsgi"
 
 def downloadHttpd():
-    chdir(DOWNLOAD_DIR)
-    exec_command("curl -o httpd-2.4.3.tar.gz -L %s"%HTTPD_URL)
+    if not exists(join(DOWNLOAD_DIR, "httpd-2.4.3.tar.gz")):
+        chdir(DOWNLOAD_DIR)
+        exec_command("curl -o httpd-2.4.3.tar.gz -L %s"%HTTPD_URL)
 
 def _extractHttpd():
     chdir(DOWNLOAD_DIR)
@@ -32,8 +33,9 @@ def _extractHttpd():
     exec_command("sudo make install")
 
 def _downloadPcre():
-    chdir(DOWNLOAD_DIR)
-    exec_command("curl -o pcre-8.20.tar.gz -L %s"%PCRE_URL)
+    if not exists(join(DOWNLOAD_DIR, "pcre-8.20.tar.gz")):
+        chdir(DOWNLOAD_DIR)
+        exec_command("curl -o pcre-8.20.tar.gz -L %s"%PCRE_URL)
 
 def _extractPcre():
     chdir(DOWNLOAD_DIR)

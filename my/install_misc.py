@@ -4,7 +4,7 @@ from os.path import join, abspath
 from os import chdir, getcwd
 import re
 import os
-from os.path import expanduser
+from os.path import expanduser, exists
 DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
 HOME = abspath(expanduser("~"))
 USR_LOCAL = abspath("/usr/local")
@@ -13,8 +13,9 @@ MEMCACHED_URL = "http://memcached.googlecode.com/files/memcached-1.4.15.tar.gz"
 APACHE_SOLR_3_5_0 = "http://archive.apache.org/dist/lucene/solr/3.5.0/apache-solr-3.5.0.tgz"
 
 def downloadLibevent():
-    chdir(DOWNLOAD_DIR)
-    exec_command("curl -o libevent-2.0.20-stable.tar.gz -L %s"%LIBEVENT_URL)
+    if not exists(join(DOWNLOAD_DIR, "libevent-2.0.20-stable.tar.gz")):
+        chdir(DOWNLOAD_DIR)
+        exec_command("curl -o libevent-2.0.20-stable.tar.gz -L %s"%LIBEVENT_URL)
 
 def extractLibevent():
     chdir(DOWNLOAD_DIR)
@@ -26,8 +27,9 @@ def extractLibevent():
     exec_command(" sudo ln -s /usr/local/lib/libevent-2.0.5.dylib /usr/lib")
 
 def downloadMemcached():
-    chdir(DOWNLOAD_DIR)
-    exec_command("curl -o memcached-1.4.15.tar.gz -L %s"%MEMCACHED_URL)
+    if not exists(join(DOWNLOAD_DIR, "memcached-1.4.15.tar.gz")):
+        chdir(DOWNLOAD_DIR)
+        exec_command("curl -o memcached-1.4.15.tar.gz -L %s"%MEMCACHED_URL)
 
 def extractMemcached():
     chdir(DOWNLOAD_DIR)
@@ -38,8 +40,9 @@ def extractMemcached():
     exec_command("sudo make install")
 
 def downloadApacheSolr3_5_0():
-    chdir(DOWNLOAD_DIR)
-    exec_command("curl -o apache-solr-3.5.0.tgz -L %s"%APACHE_SOLR_3_5_0)
+    if not exists(join(DOWNLOAD_DIR, "apache-solr-3.5.0.tgz")):
+        chdir(DOWNLOAD_DIR)
+        exec_command("curl -o apache-solr-3.5.0.tgz -L %s"%APACHE_SOLR_3_5_0)
 
 def extractApacheSolr3_5_0():
     chdir(DOWNLOAD_DIR)
