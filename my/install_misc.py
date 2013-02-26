@@ -10,6 +10,7 @@ HOME = abspath(expanduser("~"))
 USR_LOCAL = abspath("/usr/local")
 LIBEVENT_URL = "https://github.com/downloads/libevent/libevent/libevent-2.0.20-stable.tar.gz"
 MEMCACHED_URL = "http://memcached.googlecode.com/files/memcached-1.4.15.tar.gz"
+APACHE_SOLR_3_5_0 = "http://archive.apache.org/dist/lucene/solr/3.5.0/apache-solr-3.5.0.tgz"
 
 def downloadLibevent():
     chdir(DOWNLOAD_DIR)
@@ -24,8 +25,6 @@ def extractLibevent():
     exec_command("sudo make install")
     exec_command(" sudo ln -s /usr/local/lib/libevent-2.0.5.dylib /usr/lib")
 
-
-
 def downloadMemcached():
     chdir(DOWNLOAD_DIR)
     exec_command("curl -o memcached-1.4.15.tar.gz -L %s"%MEMCACHED_URL)
@@ -38,13 +37,27 @@ def extractMemcached():
     exec_command("make")
     exec_command("sudo make install")
 
+def downloadApacheSolr3_5_0():
+    chdir(DOWNLOAD_DIR)
+    exec_command("curl -o apache-solr-3.5.0.tgz -L %s"%APACHE_SOLR_3_5_0)
 
-def main():
+def extractApacheSolr3_5_0():
+    chdir(DOWNLOAD_DIR)
+    exec_command("tar xvzf apache-solr-3.5.0.tgz -C %s"%DOWNLOAD_DIR)
+
+def installApacheSolr3_5_0():
+    downloadApacheSolr3_5_0()
+    extractApacheSolr3_5_0()
+
+def install_memcached():
     downloadLibevent()
     extractLibevent()
     downloadMemcached()
     extractMemcached()
 
+
+def main():
+    print "please specify what to install."
 
 if __name__ == '__main__':
     method = 'main'
