@@ -16,6 +16,12 @@ DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
 MYSQL_64_URL = "http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.25-osx10.6-x86_64.tar.gz/from/http://mysql.mirrors.pair.com/"
 MYSQL_32_URL = "http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.25-osx10.5-x86.tar.gz/from/http://mysql.mirrors.pair.com/"
 USR_LOCAL = abspath("/usr/local")
+
+surveysidekick = "surveysidekick"
+researchbroker = "reserachbroker"
+vialogues = "vialogues"
+nlt = "nlt"
+cas = "cas"
 def is64Bit():
     out = ex("uname -a")[0]
     for line in out:
@@ -26,21 +32,21 @@ def is64Bit():
         else:
             raise Exception("Cant detect if cpu is 32 bit or 64 bit")
 
-def _createUser(project):
-    user = "edlab"
-    ex("sudo ln -s /usr/local/mysql/lib/libmysqlclient.18.dylib /usr/lib/libmysqlclient.18.dylib")
-    ex("mysql -u root --execute \"create user '%s'@'localhost'\""%user)
+user = "edlab"
+def _createDb(project):
     ex("mysqladmin --user=root drop %s"%project)
     ex("mysqladmin --user=root create %s"%project)
     ex("mysql -u root --execute \"GRANT ALL ON %s.* TO '%s'@'localhost';\""%(project, user))
     pass
 
 def main():
-    _createUser("nlt")
-    _createUser("researchbroker")
-    _createUser("surveysidekick")
-    _createUser("vialogues")
-    _createUser("cas")
+    ex("sudo ln -s /usr/local/mysql/lib/libmysqlclient.18.dylib /usr/lib/libmysqlclient.18.dylib")
+    ex("mysql -u root --execute \"create user '%s'@'localhost'\""%user)
+    _createDb(nlt)
+    _createDb(researchbroker)
+    _createDb(surveysidekick)
+    _createDb(vialogues)
+    _createDb(cas)
     
 
 if __name__ == '__main__':
