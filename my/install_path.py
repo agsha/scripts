@@ -31,7 +31,7 @@ def setgit():
 
 def setpath():
     exec_command('touch %s'%join(HOME, '.bash_profile'))
-    exec_command('cat %s | tee -a %s'%(join(PROJECT_ROOT, "profile"), join(HOME, '.bash_profile')))
+    exec_command('echo source %s | tee -a %s'%(join(PROJECT_ROOT, "profile"), join(HOME, '.bash_profile')))
     exec_command('source %s'%join(HOME, '.bash_profile'))
 
 def setup_vim():
