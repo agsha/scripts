@@ -26,6 +26,9 @@ def downloadHttpd():
 
 def _extractHttpd():
     chdir(DOWNLOAD_DIR)
+    path = abspath("/Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.8.xctoolchain")
+    if not exists(path):
+        exec_command("sudo ln -s /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.8.xctoolchain ")
     exec_command("tar xvzf httpd-2.4.3.tar.gz -C %s"%DOWNLOAD_DIR)
     chdir(join(DOWNLOAD_DIR, HTTPD_DIR))
     exec_command("%s --prefix=%s"%(join(DOWNLOAD_DIR, HTTPD_DIR, "configure"), join(USR_LOCAL, "apache2")))
