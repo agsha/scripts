@@ -50,8 +50,8 @@ def installpathogen():
 def main():
     setgit()
     setpath()
-    #setvimrc()
-    #installpathogen()
+    setvimrc()
+    installpathogen()
 
 if __name__ == '__main__':
     method = 'main'

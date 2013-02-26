@@ -15,7 +15,7 @@ USR_LOCAL = abspath("/usr/local")
 
 def _downloadPip():
     chdir(DOWNLOAD_DIR)
-    exec_command("curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python")
+    exec_command("curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py |  python")
 
 def main():
     _downloadPip()

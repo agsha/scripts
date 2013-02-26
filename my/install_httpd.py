@@ -8,6 +8,7 @@ from os.path import join, abspath
 from os import chdir, getcwd
 import re
 import os
+import sys
 from os.path import expanduser
 DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
 USR_LOCAL = abspath("/usr/local")
@@ -29,9 +30,6 @@ def _extractHttpd():
     exec_command("%s --prefix=%s"%(join(DOWNLOAD_DIR, HTTPD_DIR, "configure"), join(USR_LOCAL, "apache2")))
     exec_command("make")
     exec_command("sudo make install")
-
-
-
 
 def _downloadPcre():
     chdir(DOWNLOAD_DIR)
@@ -65,5 +63,11 @@ def main():
     _downloadModWsgi()
     _extractModWsgi()
 
+       
 if __name__ == '__main__':
-    main()
+    method = 'main'
+    if len(sys.argv) > 1 :
+        method = sys.argv[1] 
+        globals()[sys.argv[1]]()
+    else:
+        main()    
