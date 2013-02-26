@@ -18,14 +18,6 @@ MOD_WSGI_DIR = "mod_wsgi"
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-def setpath():
-    exec_command('touch %s'%join(HOME, '.bash_profile'))
-    exec_command('cat %s | tee -a %s'%(join(PROJECT_ROOT, "profile"), join(HOME, '.bash_profile')))
-    #exec_command('source %s'%join(HOME, '.bash_profile'))
-
-def setvimrc():
-    exec_command('cp edlabvimrc %s'%join(HOME, '.vimrc'))
-
 def setgit():
     exec_command("git config --global color.ui auto")
     email = raw_input("\n\n\n\n\n\nEnter your email like you want it in git(Example: pgarg@gmail.com):\n")
@@ -37,21 +29,21 @@ def setgit():
     exec_command('curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -O')
     chdir(PROJECT_ROOT)
 
-def installpathogen():
-    exec_command('mkdir ~/.vim')
-    exec_command('mkdir ~/.vim/undodir')
-    exec_command('mkdir  -p ~/.vim/autoload ~/.vim/bundle')
-    exec_command('curl -so ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim')
-    chdir(join(HOME, '.vim', 'bundle'))
-    exec_command('git clone https://github.com/kien/ctrlp.vim.git')
+def setpath():
+    exec_command('touch %s'%join(HOME, '.bash_profile'))
+    exec_command('cat %s | tee -a %s'%(join(PROJECT_ROOT, "profile"), join(HOME, '.bash_profile')))
+    exec_command('source %s'%join(HOME, '.bash_profile'))
+
+def setup_vim():
+    chdir(HOME)
+    exec_command('ln -s %s .vimrc'%join(PROJECT_ROOT, "vimrc"))
+    exec_command('ln -s %s .vim'%join(PROJECT_ROOT, "vim"))
     chdir(PROJECT_ROOT)
-    exec_command('cp vimrc-ctrlp vimrc-machine-specific vimrc-pathogen vimrc-project-nlt ~/.vim')
 
 def main():
     setgit()
     setpath()
-    setvimrc()
-    installpathogen()
+    setup_vim()
 
 if __name__ == '__main__':
     method = 'main'

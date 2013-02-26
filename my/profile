@@ -1,27 +1,26 @@
 
 export PATH=/usr/local/pcre-8.20/bin:/usr/local/apache2/bin:/usr/local/mysql/bin:/usr/local/ctags-exuberant/bin/:$PATH
 
-
 PS1='\[\e[1;35m\][\u@\h \W]\$\[\e[0m\] '
 
 alias rs="sudo /usr/local/apache2/bin/apachectl -k  restart"
 
 source ~/VIRT_ENV/bin/activate
-source git-completion.bash 
-
-export GREP_OPTIONS='--color=always'
-export GREP_COLOR='7'
+source ~/git-completion.bash
 
 #export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
 
 export CLICOLOR=1
-export COLOR_BOLD="\[\e[1m\]"
-export COLOR_DEFAULT="\[\e[0m\]"
+COLOR_BOLD="\[\e[1m\]"
+COLOR_DEFAULT="\[\e[0m\]"
 
-export HISTSIZE=512
-export HISTFILESIZE=40960
-export HISTCONTROL=ignoredups
-export HISTIGNORE=?:??
-export PROMPT_COMMAND='history -a'
-export INPUTRC=~/.inputrc
-export GREP_OPTIONS='--color=auto'
+HISTSIZE=512
+HISTFILESIZE=40960
+HISTCONTROL=ignoredups
+HISTIGNORE=?:??
+PROMPT_COMMAND='history -a'
+INPUTRC=~/.inputrc
+
+export GREP_OPTIONS='--color=always'
+export GREP_COLOR='7'
+
