@@ -3,8 +3,7 @@ Created on Jun 27, 2012
 
 @author: sharath
 '''
-from my.Test import exec_command
-from os.path import join, abspath, expanduser, exists
+from os.path import join, abspath, expanduser, exists, dirname
 from os import chdir, getcwd
 import re
 import os
@@ -14,9 +13,12 @@ DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
 HOME_DIR = abspath(expanduser("~"))
 USR_LOCAL = abspath("/usr/local")
 SSK = abspath(expanduser(""))
-DB_DUMP = abspath(expanduser(""))
+DB_DUMP = abspath(expanduser("/"))
 VIRT_SSK = abspath(expanduser("~/VIRT_SSK"))
-PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = abspath(dirname(__file__))
+sys.path.append(dirname(dirname(PROJECT_ROOT)))
+from my.Test import exec_command
+
 def _downloadVialogues():
     chdir(HOME_DIR)
     exec_command("git clone git@bitbucket.org:edlab/apps-vialogues.git projects/vialogues_code")
@@ -26,6 +28,7 @@ def _downloadDjangoCas():
     exec_command("git clone git@bitbucket.org:edlab/apps-django-cas.git projects/django.cas")
 
 def _install():
+    exec_command("deactivate")
     if exists(VIRT_SSK):
         exec_command("rm -rf %s"%VIRT_SSK)
     chdir("/Library/Python/2.7/site-packages")
@@ -34,7 +37,7 @@ def _install():
     exec_command("source bin/activate;pip install -r %s"%join(PROJECT_ROOT, "ssk-requirements.txt") )
 
     
-    if not exists(join(SSK, "settings.py")):
+    if not exists(join(SSK, "settings.py.example")):
         print "ERROR: please update the path of surveysidekick in this script"
         return
     if not exists(join(SSK, "apps", "accounts")):
@@ -44,10 +47,8 @@ def _install():
     exec_command("touch debug.log")
     exec_command("chmod go+rwx debug.log")
     exec_command("cp settings.py.example settings.py")
-    exec_command("python manage.py syncdb")
-    exec_command("python bootstrap.py")
 
-def dbdump():
+def _dbdump():
     if not exists(DB_DUMP):
         print "error: please update the path to the DB_DUMP in this file"
         return
@@ -57,6 +58,7 @@ def dbdump():
         
 def main():
     _install()
+    _dbdump()
 
 if __name__ == '__main__':
     

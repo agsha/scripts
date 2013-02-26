@@ -38,6 +38,8 @@ def setup_vim():
     chdir(HOME)
     exec_command('ln -s %s .vimrc'%join(PROJECT_ROOT, "vimrc"))
     exec_command('ln -s %s .vim'%join(PROJECT_ROOT, "vim"))
+    chdir(join(HOME, ".vim", "bundle"))
+    exec_command("git clone https://github.com/kien/ctrlp.vim.git")
     chdir(PROJECT_ROOT)
 
 def main():
