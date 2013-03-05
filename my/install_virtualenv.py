@@ -13,7 +13,7 @@ DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
 USR_LOCAL = abspath("/usr/local")
 
 def _installVirtualEnv():
-    exec_command("sudo pip install virtualenv")
+    exec_command("sudo pip install virtualenv virtualenvwrapper")
     #FIXME: port for linux also
     chdir("/Library/Python/2.7/site-packages")
 
