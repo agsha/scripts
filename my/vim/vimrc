@@ -233,6 +233,8 @@ fun! UpdateMappingForEnterKey()
 endfun
 autocmd BufEnter,BufWinEnter * call UpdateMappingForEnterKey()
 
+" Custom mappings!!
+"
 map <BS> <C-U>
 
 " Map J and K to home and end.  K is lookup man entry by default,
@@ -244,19 +246,30 @@ map K $
 map S `^
 nnoremap ,s S
 
+" Map ,d to yank inner quotes. super useful, I do this all the time!
+" Map ,f to delete old text inside inner quotes and paste the one in clipboard
+map <leader>d yi"
+map <leader>f "_di"P
 
 " But I do use J (Join lines), so remapping it to leader J.
+map <leader>a yi'
+map <leader>s "_di'P
 " Note that this is a convention. When I remap "key", I put the old 
 " mapping in <leader>key
 noremap <leader>j J
 noremap <leader>k K
 
 " mapping for force writing when I forgot to start vim with sudo
-cmap w!! %!sudo tee > /dev/null %
+cmap w!! w ! sudo tee %
 
 " mapping for ignoring white space diff in diff mode 
 set diffopt+=iwhite 
 
+" Map gp to select last paste
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+
+imap <F3> <ESC>:w<CR>li
+nmap <F3> :w<CR>
 " Smart way to move between windows
 map <C-j> <C-W>j
 map <C-k> <C-W>k
