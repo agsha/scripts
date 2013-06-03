@@ -44,6 +44,7 @@ def setup_vim():
     chdir(join(HOME, ".vim", "bundle"))
     exec_command('rm -rf ctrlp.vim')
     exec_command("git clone https://github.com/kien/ctrlp.vim.git")
+    exec_command('rm -rf nerdcommenter')
     exec_command("git clone https://github.com/scrooloose/nerdcommenter.git")
     chdir(PROJECT_ROOT)
 
