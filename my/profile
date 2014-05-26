@@ -7,7 +7,6 @@ PS1='\[\e[1;35m\][\u@\h $(pwd)]\$\[\e[0m\] '
 
 alias rs="sudo /usr/local/apache2/bin/apachectl -k  restart"
 
-source ~/VIRT_REST/bin/activate
 source ~/git-completion.bash
 
 #export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
@@ -16,16 +15,43 @@ export CLICOLOR=1
 COLOR_BOLD="\[\e[1m\]"
 COLOR_DEFAULT="\[\e[0m\]"
 
-HISTSIZE=512
-HISTFILESIZE=40960
-HISTCONTROL=ignoredups
-HISTIGNORE=?:??
-PROMPT_COMMAND='history -a'
+## Colorize the ls output ##
+alias ls="ls -G"
+ 
+## Use a long listing format ##
+alias ll='ls -laF'
+ 
+## Show hidden files ##
+alias l.='ls -d .* --color=auto'
+## get rid of command not found ##
+alias cd..='cd ..'
+ 
+## a quick way to get out of current directory ##
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
+
+## Colorize the grep command output for ease of use (good for log files)##
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# handy short cuts #
+alias h='cat ~/.bash_eternal_history'
+alias hg='cat ~/.bash_eternal_history | grep $@'
+alias j='jobs -l'
+
+export HISTSIZE=
+export HISTFILESIZE=
+export HISTCONTROL=ignoredups
+export HISTFILE=~/.bash_eternal_history
+export HISTIGNORE=?:??
+export PROMPT_COMMAND='history -a'
 INPUTRC=~/.inputrc
 
 export GREP_OPTIONS='--color=always'
 export GREP_COLOR='7'
 
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/projects
-source /usr/local/bin/virtualenvwrapper.sh
