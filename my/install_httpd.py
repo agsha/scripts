@@ -12,37 +12,37 @@ import sys
 from os.path import expanduser, exists
 DOWNLOAD_DIR = abspath(expanduser("~/Downloads"))
 USR_LOCAL = abspath("/usr/local")
-PCRE_URL = "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.20.tar.gz"
-HTTPD_URL = "http://apache.cs.utah.edu//httpd/httpd-2.4.3.tar.gz"
-PCRE_DIR = "pcre-8.20"
-HTTPD_DIR = "httpd-2.4.3"
+PCRE_URL = "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz"
+HTTPD_URL = "http://apache.cs.utah.edu//httpd/httpd-2.4.16.tar.gz"
+PCRE_DIR = "pcre-8.36"
+HTTPD_DIR = "httpd-2.4.16"
 MOD_WSGI_URL = "http://modwsgi.googlecode.com/files/mod_wsgi-3.3.tar.gz"
 MOD_WSGI_DIR = "mod_wsgi"
 
 def downloadHttpd():
-    if not exists(join(DOWNLOAD_DIR, "httpd-2.4.3.tar.gz")):
+    if not exists(join(DOWNLOAD_DIR, "httpd-2.4.16.tar.gz")):
         chdir(DOWNLOAD_DIR)
-        exec_command("curl -o httpd-2.4.3.tar.gz -L %s"%HTTPD_URL)
+        exec_command("curl -o httpd-2.4.16.tar.gz -L %s"%HTTPD_URL)
 
 def _extractHttpd():
     chdir(DOWNLOAD_DIR)
-    path = abspath("/Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.8.xctoolchain")
+    path = abspath("/Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.10.xctoolchain")
     if not exists(path):
-        exec_command("sudo ln -s /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.8.xctoolchain ")
-    exec_command("tar xvzf httpd-2.4.3.tar.gz -C %s"%DOWNLOAD_DIR)
+        exec_command("sudo ln -s /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.10.xctoolchain ")
+    exec_command("tar xvzf httpd-2.4.16.tar.gz -C %s"%DOWNLOAD_DIR)
     chdir(join(DOWNLOAD_DIR, HTTPD_DIR))
     exec_command("%s --prefix=%s"%(join(DOWNLOAD_DIR, HTTPD_DIR, "configure"), join(USR_LOCAL, "apache2")))
     exec_command("make")
     exec_command("sudo make install")
 
 def _downloadPcre():
-    if not exists(join(DOWNLOAD_DIR, "pcre-8.20.tar.gz")):
+    if not exists(join(DOWNLOAD_DIR, "pcre-8.36.tar.gz")):
         chdir(DOWNLOAD_DIR)
-        exec_command("curl -o pcre-8.20.tar.gz -L %s"%PCRE_URL)
+        exec_command("curl -o pcre-8.36.tar.gz -L %s"%PCRE_URL)
 
 def _extractPcre():
     chdir(DOWNLOAD_DIR)
-    exec_command("tar xvzf pcre-8.20.tar.gz -C %s"%( DOWNLOAD_DIR))
+    exec_command("tar xvzf pcre-8.36.tar.gz -C %s"%( DOWNLOAD_DIR))
     chdir(join(DOWNLOAD_DIR, PCRE_DIR))
     exec_command("%s --prefix=%s"%(join(DOWNLOAD_DIR, PCRE_DIR, "configure"), join(USR_LOCAL, PCRE_DIR)))
     exec_command("make")
@@ -68,11 +68,11 @@ def main():
     _downloadModWsgi()
     _extractModWsgi()
 
-       
+
 if __name__ == '__main__':
     method = 'main'
     if len(sys.argv) > 1 :
-        method = sys.argv[1] 
+        method = sys.argv[1]
         globals()[sys.argv[1]]()
     else:
-        main()    
+        main()

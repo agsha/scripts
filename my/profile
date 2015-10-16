@@ -18,6 +18,7 @@ COLOR_DEFAULT="\[\e[0m\]"
 ## Colorize the ls output ##
 alias ls="ls -G"
  
+
 ## Use a long listing format ##
 alias ll='ls -laF'
  
@@ -28,11 +29,9 @@ alias cd..='cd ..'
  
 ## a quick way to get out of current directory ##
 alias ..='cd ..'
-alias ...='cd ../../../'
-alias ....='cd ../../../../'
+alias ...='cd ../../'
+alias ....='cd ../../../'
 alias .....='cd ../../../../'
-alias .4='cd ../../../../'
-alias .5='cd ../../../../..'
 
 ## Colorize the grep command output for ease of use (good for log files)##
 alias grep='grep --color=auto'
@@ -55,3 +54,8 @@ INPUTRC=~/.inputrc
 export GREP_OPTIONS='--color=always'
 export GREP_COLOR='7'
 
+#host name autocomplete
+complete -W "$(echo `cat ~/.ssh/known_hosts | cut -f 1 -d ' ' | sed -e s/,.*//g | uniq | grep -v '\['`)" ssh
+
+## cd ls
+function cs () { cd "$@" && ls; }
