@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/home/sharath.g/.vim'
+let g:netrw_dirhist_2='/home/sharath.g/osdlogs'
+let g:netrw_dirhist_3='/home/sharath.g/code/cosmos-dashboards/create_scripted_dashboard_example'
+let g:netrw_dirhist_4='/etc/apache2'
+let g:netrw_dirhist_5='/etc/apache2/mods-enabled'
+let g:netrw_dirhist_6='/home/sharath.g/my'
+let g:netrw_dirhist_7='/home/sharath.g/code/scripts/my'
