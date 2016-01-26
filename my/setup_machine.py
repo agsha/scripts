@@ -1,50 +1,102 @@
 import json
-import sys
-import os
-import subprocess
-from os import path
 import logging
+import os
+import sys
+import subprocess
+import socket
 
 __author__ = 'sharath.g'
 
 
-def main():
-    s = subprocess.check_output("ssh -o StrictHostKeyChecking=no iaas-infra-0001.nm.flipkart.com 'kloud-cli instance list -e ga --appId=dev-d42sharath --json'", shell=True)
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    PRETTY = '\033[1;36m'
+    FAIL = '\033[91m'
+    TAME = '\033[0;36m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
+def copy_to_remote(ip):
+    call("ssh -o StrictHostKeyChecking=no {ip} 'rm  /tmp/{f}'".format(ip=ip, f=os.path.basename(__file__)))
+    call("scp {0} {1}:/tmp".format(os.path.abspath(__file__), ip))
+
+
+def prettify(cmd):
+    return "{tame_color}[{host} {cwd}]$ {bold_color}{cmd}{end_color}".format(tame_color=bcolors.TAME,
+                                                                             bold_color=bcolors.PRETTY,
+                                                                             host=socket.gethostname(), cwd=os.getcwd(),
+                                                                             cmd=cmd, end_color=bcolors.ENDC)
+
+
+def execute_on_remote(ip, command):
+    cc("ssh -o StrictHostKeyChecking=no %s 'python %s %s'" % (
+        ip, "/tmp/" + os.path.basename(__file__), command))
+
+
+def for_each(appId):
+    s = co("/home/sharath.g/bin/kloud-cli instance list -e 10.33.65.0 --appId={appId} --json".format(appId=appId))
     s = json.loads(s)
-    ok = False
     for obj in s:
-        if 'osd' not in obj['hostname']:
-            continue
         ip = obj['primary_ip']
         host = obj['hostname']
+        type = obj['instance_type']
         setup_for_ip(ip)
+
+def echo(params):
+    log.debug("hihihihi")
+
+
+def cc(cmd):
+    log.debug(prettify(cmd))
+    subprocess.check_call(cmd, shell=True)
+
+
+def co(cmd):
+    log.debug(prettify(cmd))
+    return subprocess.check_output(cmd, shell=True)
+
+
+def call(cmd):
+    log.debug(prettify(cmd))
+    return subprocess.call(cmd, shell=True)
 
 def setup_for_ip(ip):
     log.debug(ip)
     proj = os.path.abspath(os.path.dirname(__file__))
 
-    subprocess.call("ssh -o StrictHostKeyChecking=no {0} 'rm -rf ~/my'".format(ip), shell=True)
-    subprocess.call("ssh -o StrictHostKeyChecking=no {0} 'mkdir ~/my'".format(ip), shell=True)
-    subprocess.call("ssh -o StrictHostKeyChecking=no {0} 'mkdir ~/.vim'".format(ip), shell=True)
+    call("ssh -o StrictHostKeyChecking=no {0} 'rm -rf ~/my'".format(ip))
+    log.debug("a")
+    call("ssh -o StrictHostKeyChecking=no {0} 'mkdir ~/my'".format(ip))
+    log.debug("b")
+
+    call("ssh -o StrictHostKeyChecking=no {0} 'mkdir ~/.vim'".format(ip))
+    log.debug("c")
 
     # copy this file to remote machine ;)
-    copy_to_remote(ip)
-    subprocess.check_call("scp " + os.path.join(proj, "profile") + " {0}:~/my".format(ip), shell=True)
-    subprocess.call("scp " + os.path.join(proj, "vimrc") + " {0}:~/.vimrc".format(ip), shell=True)
-    subprocess.call("scp " + os.path.join(proj, "tmux.conf") + " {0}:~/.tmux.conf".format(ip), shell=True)
-    subprocess.call("scp " + os.path.join(proj, "bash_profile") + " {0}:~/.bash_profile".format(ip), shell=True)
-    subprocess.call("scp -r " + os.path.join(proj, "vim/*") + " {0}:~/.vim".format(ip), shell=True)
+    cc("scp " + os.path.join(proj, profile) + " {0}:~/my".format(ip))
+    log.debug("d")
 
-def copy_to_remote(ip):
-    subprocess.check_call("scp " + __file__ + " {0}:~/my".format(ip), shell=True)
+    call("scp " + os.path.join(proj, "vimrc") + " {0}:~/.vimrc".format(ip))
+    log.debug("e")
+    call("scp " + os.path.join(proj, "tmux.conf") + " {0}:~/.tmux.conf".format(ip))
+    log.debug("f")
+    call("scp " + os.path.join(proj, "bash_profile") + " {0}:~/.bash_profile".format(ip))
+    log.debug("g")
+    call("scp -r " + os.path.join(proj, "vim/*") + " {0}:~/.vim".format(ip))
+    log.debug("h")
+
 
 
 def remote_install_java():
-    subprocess.check_call("echo 'deb http://10.47.2.22:80/repos/oracle-java/4 /' | sudo tee /etc/apt/mysources.list.d",
-                          shell=True)
-    subprocess.check_call("sudo apt-get update", shell=True)
-    subprocess.check_call("sudo apt-get update", shell=True)
-    subprocess.check_call("sudo apt-get -y install oracle-j2sdk1.7", shell=True)
+    cc("echo 'deb http://10.47.2.22:80/repos/oracle-java/4 /' | sudo tee /etc/apt/mysources.list.d")
+    cc("sudo apt-get update")
+    cc("sudo apt-get update")
+    cc("sudo apt-get -y install oracle-j2sdk1.7")
 
 
 def remote_setup():
@@ -56,6 +108,9 @@ def remote_create_bash_profile():
     f.write("source ~/my/profile\n")
     f.close()
 
+def main(params):
+    for_each("dev-d42sharath1")
+
 
 if __name__ == '__main__':
     # setup logging to console with line number
@@ -65,10 +120,14 @@ if __name__ == '__main__':
     logging.getLogger('').setLevel(logging.DEBUG)
     log = logging.getLogger(__name__)
 
+    os = "linux" if "Linux" in co("uname -a") else "mac"
+    profile = "linux_profile" if os == "linux" else "mac-profile
     method = 'main'
-    setup_for_ip('10.33.126.1')
-    # if len(sys.argv) > 1:
-    #     method = sys.argv[1]
-    #     globals()[sys.argv[1]]()
-    # else:
-    #     main('sdf')
+    if len(sys.argv) > 1:
+        method = sys.argv[1]
+        params = []
+        if len(sys.argv) > 2:
+            params = sys.argv[2:]
+        globals()[sys.argv[1]](params)
+    else:
+        main(sys.argv[1:])
