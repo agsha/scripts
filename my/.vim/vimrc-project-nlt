@@ -1,3 +1,0 @@
-set tags+=~/.vim/tags/projects%nlt
-set path+=~/projects/nlt
-"/usr/local/bin/ctags -R  -f ~/.vim/tags/projects%nlt ~/projects/nlt
