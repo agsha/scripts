@@ -83,22 +83,12 @@ def call(cmd):
 
 home = os.path.abspath(os.path.expanduser("~"))
 scripts = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-def setup_for_ip(ip):
-
-    cc("ssh -o StrictHostKeyChecking=no sharath.g@{0} 'rm -rf ~/scripts;mkdir -p ~/scripts/my'".format(ip))
-    cc("scp -r {src1} {src2} sharath.g@{ip}:{tgt}".format(src1=os.path.join(scripts, "my/.vim"), src2=os.path.join(scripts, "my/linux_setup"), ip=ip, tgt="~/scripts/my"))
-
-    copy_to_remote(ip)
-    execute_on_remote(ip, "setup_localhost")
-
 
 
 def setup_localhost(params=[]):
     cc("rm -rf ~/.bash_profile ~/.xinitrc ~/.xmodmaprc ~/.tmux.conf ")
-    cc("ln -s {src} {tgt}".format(src=os.path.join(scripts, "my/linux_setup/linux_profile"), tgt=os.path.join(home, ".bash_profile")))
-    cc("ln -s {src} {tgt}".format(src=os.path.join(scripts, "my/linux_setup/.xinitrc"), tgt=os.path.join(home, ".xinitrc")))
-    cc("ln -s {src} {tgt}".format(src=os.path.join(scripts, "my/linux_setup/.xmodmaprc"), tgt=os.path.join(home, ".xmodmaprc")))
-    cc("ln -s {src} {tgt}".format(src=os.path.join(scripts, "my/linux_setup/tmux.conf"), tgt=os.path.join(home, ".tmux.conf")))
+    cc("ln -s {src} {tgt}".format(src=os.path.join(scripts, "my/mac_setup/mac_profile"), tgt=os.path.join(home, ".bash_profile")))
+    cc("ln -s {src} {tgt}".format(src=os.path.join(scripts, "my/mac_setup/tmux.conf"), tgt=os.path.join(home, ".tmux.conf")))
 
     cc("rm -rf ~/.vim")
     cc("rm -rf ~/.vimrc")
@@ -110,13 +100,6 @@ source {scripts}/my/.vim/vimrc-ctrlp
     """.format(scripts=scripts)
     with open(os.path.expanduser("~/.vimrc"), "w") as f:
         f.write(vimrc)
-
-
-
-def remote_install_java():
-    cc("sudo apt-get update")
-    cc("sudo apt-get update")
-    cc("sudo apt-get -y install oracle-j2sdk1.7")
 
 
 
@@ -142,4 +125,4 @@ if __name__ == '__main__':
         globals()[sys.argv[1]](params)
     else:
         main(sys.argv[1:])
-        setup_for_ip()
+        setup_localhost([])
