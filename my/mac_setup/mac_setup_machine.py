@@ -100,6 +100,7 @@ source {scripts}/my/.vim/vimrc-ctrlp
     """.format(scripts=scripts)
     with open(os.path.expanduser("~/.vimrc"), "w") as f:
         f.write(vimrc)
+    cc("mkdir -p ~/.vim/undodir")
 
 
 
