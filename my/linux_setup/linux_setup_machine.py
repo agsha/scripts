@@ -88,9 +88,7 @@ def setup_for_ip(ip):
     cc("ssh -o StrictHostKeyChecking=no sharath.g@{0} 'rm -rf ~/scripts;mkdir -p ~/scripts/my'".format(ip))
     cc("scp -r {src1} {src2} sharath.g@{ip}:{tgt}".format(src1=os.path.join(scripts, "my/.vim"), src2=os.path.join(scripts, "my/linux_setup"), ip=ip, tgt="~/scripts/my"))
 
-    copy_to_remote(ip)
-    execute_on_remote(ip, "setup_localhost")
-
+    cc("ssh -o StrictHostKeyChecking=no sharath.g@{0} 'python ~/scripts/my/linux_setup/linux_setup_machine.py setup_localhost'".format(ip))
 
 
 def setup_localhost(params=[]):
@@ -110,7 +108,7 @@ source {scripts}/my/.vim/vimrc-ctrlp
     """.format(scripts=scripts)
     with open(os.path.expanduser("~/.vimrc"), "w") as f:
         f.write(vimrc)
-    cc("mkdir -p ~/.vim/undodir")
+    call("mkdir -p ~/.vim_undodir")
 
 
 
@@ -143,4 +141,4 @@ if __name__ == '__main__':
         globals()[sys.argv[1]](params)
     else:
         main(sys.argv[1:])
-        setup_for_ip()
+        setup_for_ip("188.166.204.110")

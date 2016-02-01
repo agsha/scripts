@@ -173,7 +173,7 @@ set noswapfile
 
 " Persist undos after exiting
 set undofile 
-set undodir=~/.vim/undodir//
+set undodir=~/.vim_undodir//
 set undolevels=1000
 
 
