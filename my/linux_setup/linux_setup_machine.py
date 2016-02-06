@@ -48,11 +48,12 @@ def for_each(appId):
         ip = obj['primary_ip']
         host = obj['hostname']
         type = obj['instance_type']
-        try:
-            copy_to_remote(ip)
-            execute_on_remote(ip, "echo")
-        except:
-            log.debug("failed for {ip}".format(ip=ip))
+        setup_for_ip(ip)
+        # try:
+        #     copy_to_remote(ip)
+        #     execute_on_remote(ip, "echo")
+        # except:
+        #     log.debug("failed for {ip}".format(ip=ip))
 
 def lineno():
     """Returns the current line number in our program."""
@@ -120,7 +121,7 @@ def remote_install_java():
 
 
 def main(params):
-    pass
+    for_each("dev-d42sharath1")
 
 if __name__ == '__main__':
     # setup logging to console with line number
@@ -140,5 +141,6 @@ if __name__ == '__main__':
             params = sys.argv[2:]
         globals()[sys.argv[1]](params)
     else:
-        main(sys.argv[1:])
-        setup_for_ip("188.166.204.110")
+        #main(sys.argv[1:])
+        setup_localhost()
+        #setup_for_ip("188.166.204.110")
