@@ -97,10 +97,14 @@ def setup_localhost(params=[]):
 source {scripts}/my/.vim/common_vimrc
 source {scripts}/my/.vim/vimrc-pathogen
 source {scripts}/my/.vim/vimrc-ctrlp
+source {scripts}/my/.vim/cscope_maps.vim
+
     """.format(scripts=scripts)
     with open(os.path.expanduser("~/.vimrc"), "w") as f:
         f.write(vimrc)
     call("mkdir -p ~/.vim_undodir")
+    call("mkdir -p ~/.ssh/sockets")
+    cc("ln -s {src} {tgt}".format(src=os.path.join(scripts, "my/mac_setup/ssh_config"), tgt=os.path.join(home, ".ssh/config")))
 
 
 

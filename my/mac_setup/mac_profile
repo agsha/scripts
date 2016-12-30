@@ -1,7 +1,17 @@
-
+export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
+export all=/Users/sharath.g/Dropbox/data/history/all_cmd
+#export MEGH_API_USER=d42-maintainers
+#export MEGH_API_PASSWORD=flipkart@123
+export MEGH_API_USER=fdp-infra-dev
+export MEGH_API_PASSWORD=weR0ck
+#export MEGH_API_USER=jabir.ahmed
+#export MEGH_API_PASSWORD=ce588f775880a6c2c951c2b88613cd7c
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 # Comment out below to use mac apache instead of custom install
 #export PATH=/usr/local/apache2/bin/:$PATH
-export PATH=$HOME/bin:$PATH
+export PATH=$HOME/bin:/Users/sharath.g/bin/apache-maven-3.3.9/bin:$PATH
 #PS1='\[\e[1;32m\][\u@\h $(pwd)]\$\[\e[0m\] '
 PS1='\[\e[1;31m\][\u@\h $(pwd)]\$\[\e[0m\] '
 # ls colors for a dark background
@@ -36,9 +46,10 @@ alias ....='cd ../../../'
 alias .....='cd ../../../../'
 
 ## Colorize the grep command output for ease of use (good for log files)##
-alias grep='grep --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
+alias grep='/usr/bin/grep --color=auto'
+alias egrep='/usr/bin/egrep --color=auto'
+alias fgrep='/usr/bin/fgrep --color=auto'
+alias ogrep='/usr/bin/grep'
 
 # handy short cuts #
 alias h='cat ~/.bash_eternal_history'
