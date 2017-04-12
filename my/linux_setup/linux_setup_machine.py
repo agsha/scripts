@@ -326,8 +326,11 @@ def setup_for_app_id(appId):
 
 
 def main(params):
-    setup_for_app_id("specter")
-    # ips = ['10.32.249.74']
+    # setup_for_app_id("specter")
+    ips = [ '10.34.37.13']
+    # ips = [s['primary_ip'] for s in instance_list("dfsio-test") if s['instance_type'] =='d1.xlarge']
+    # print " ".join(ips)
+    # return
     copy_this(ips)
     multicast_run_anywhere(ips, "clean")
     multicast_copy_anywhere(ips, os.path.join(scripts, "my/.vim/"), "/home/sharath.g/scripts/my/.vim/")

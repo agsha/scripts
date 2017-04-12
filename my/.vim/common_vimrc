@@ -275,6 +275,9 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
+" I always enable this anyway.
+set paste
+
 " Close the current buffer
 map <leader>bd :Bclose<cr>
 

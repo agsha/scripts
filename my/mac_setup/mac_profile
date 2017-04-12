@@ -1,3 +1,10 @@
+export HIVE_HOME=/Users/sharath.g/Downloads/distributed/apache-hive-2.1.1-bin
+export HADOOP_PREFIX=/Users/sharath.g/Downloads/distributed/hadoop-2.7.3
+export HADOOP_HOME=/Users/sharath.g/Downloads/distributed/hadoop-2.7.3
+export PIG_HOME=/Users/sharath.g/Downloads/distributed/pig-0.16.0
+export HCAT_HOME=/Users/sharath.g/Downloads/distributed/apache-hive-2.1.1-bin/hcatalog
+export PIG_CLASSPATH="$HCAT_HOME/share/hcatalog/hive-hcatalog-core*.jar:$HCAT_HOME/share/hcatalog/hive-hcatalog-pig-adapter*.jar:$HIVE_HOME/lib/hive-metastore-*.jar:$HIVE_HOME/lib/libthrift-*.jar:$HIVE_HOME/lib/hive-exec-*.jar:$HIVE_HOME/lib/libfb303-*.jar:$HIVE_HOME/lib/jdo2-api-*-ec.jar:$HIVE_HOME/conf:$HADOOP_HOME/conf:$HIVE_HOME/lib/slf4j-api-*.jar:/Users/sharath.g/Downloads/distributed/apache-hive-2.1.1-bin/lib/datanucleus-api-jdo-4.2.1.jar:/Users/sharath.g/Downloads/distributed/apache-hive-2.1.1-bin/lib/datanucleus-core-4.1.6.jar:/Users/sharath.g/Downloads/distributed/apache-hive-2.1.1-bin/lib/datanucleus-rdbms-4.1.7.jar"
+export JAVA_HOME=`/usr/libexec/java_home`
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export all=/Users/sharath.g/Dropbox/data/history/all_cmd
@@ -11,12 +18,30 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 # Comment out below to use mac apache instead of custom install
 #export PATH=/usr/local/apache2/bin/:$PATH
-export PATH=$HOME/bin:/Users/sharath.g/bin/apache-maven-3.3.9/bin:$PATH
+export PATH=$HOME/bin:/usr/local/sbin:/Users/sharath.g/bin/apache-maven-3.3.9/bin:$HADOOP_PREFIX/sbin:$HADOOP_PREFIX/bin:$HIVE_HOME/bin:$PIG_HOME/bin:$PATH
 #PS1='\[\e[1;32m\][\u@\h $(pwd)]\$\[\e[0m\] '
 PS1='\[\e[1;31m\][\u@\h $(pwd)]\$\[\e[0m\] '
 # ls colors for a dark background
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
-
+_complete_hosts () {
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    host_list=`{
+        for c in /etc/ssh_config /etc/ssh/ssh_config ~/.ssh/config
+        do [ -r $c ] && sed -n -e 's/^Host[[:space:]]//p' -e 's/^[[:space:]]*HostName[[:space:]]//p' $c
+        done
+        for k in /etc/ssh_known_hosts /etc/ssh/ssh_known_hosts ~/.ssh/known_hosts
+        do [ -r $k ] && egrep -v '^[#\[]' $k|cut -f 1 -d ' '|sed -e 's/[,:].*//g'
+        done
+        sed -n -e 's/^[0-9][0-9\.]*//p' /etc/hosts; }|tr ' ' '\n'|grep -v '*'`
+    COMPREPLY=( $(compgen -W "${host_list}" -- $cur))
+    return 0
+}
+alias hv="cd $HIVE_HOME"
+alias hd="cd $HADOOP_HOME"
+alias pg="cd $PIG_HOME"
+complete -F _complete_hosts ssh
+complete -F _complete_hosts host
 alias rs="sudo /usr/local/apache2/bin/apachectl -k  restart"
 alias ip='ifconfig  | grep "inet addr:"| grep -v "127.0.0.1" | cut -d: -f2 | cut -d" " -f1'
 #source ~/git-completion.bash
