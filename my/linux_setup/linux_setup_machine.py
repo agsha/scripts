@@ -4,12 +4,16 @@ import logging
 import os
 import sys
 import subprocess
+import threading
 import urllib2
 import socket
 from multiprocessing import Process, Queue
+import thread
 
 # import requests
 # setup logging to console with line number
+from time import sleep
+
 console = logging.StreamHandler(sys.stdout)
 console.setFormatter(logging.Formatter("%(message)s"))
 logging.getLogger('').addHandler(console)
@@ -25,7 +29,7 @@ this_file = os.path.abspath(__file__)
 this_file_name = os.path.basename(__file__)
 home = os.path.abspath(os.path.expanduser("~"))
 
-__author__ = 'sharath.g'
+__author__ = 'sharath'
 
 
 class bcolors:
@@ -76,7 +80,7 @@ def execute_on_remote(ip, command, sudo=False):
 
 
 def for_each(appId):
-    url = "http://10.33.65.0:8080/compute/v1/apps/{}/instances?view=summary".format(appId)
+    url = "http://10.47.255.6:8080/compute/v1/apps/{}/instances?view=summary".format(appId)
     r = urllib2.urlopen(url)
     s = json.load(r)
     for obj in s:
@@ -91,7 +95,7 @@ def for_each(appId):
 
 
 def instance_list(appId):
-    url = "http://10.33.65.0:8080/compute/v1/apps/{}/instances?view=summary".format(appId)
+    url = "http://10.47.255.6:8080/compute/v1/apps/{}/instances?view=summary".format(appId)
     r = urllib2.urlopen(url)
     s = json.load(r)
     return s
@@ -233,12 +237,16 @@ def multicast_copy_anywhere_wrapper(params):
 
 # assuming this file is already there in all ips in the given path
 def multicast_run_task(ip, command, ret_q=None, sudo=False, debug=False):
-    sudo_str = "sudo" if sudo else ""
-    cmd = "ssh -o StrictHostKeyChecking=no {ip} '{sudo} python /tmp/{this_file_name} {command}'".format(ip=ip,
-                                                                                                    sudo=sudo_str,
-                                                                                                    this_file_name=this_file_name,
-                                                                                                    command=command)
-    ret_q.put(co(cmd, log_cmd=debug, log_op=False))
+    try:
+        sudo_str = "sudo" if sudo else ""
+        cmd = "ssh -o StrictHostKeyChecking=no {ip} '{sudo} python /tmp/{this_file_name} {command}'".format(ip=ip,
+                                                                                                            sudo=sudo_str,
+                                                                                                            this_file_name=this_file_name,
+                                                                                                            command=command)
+        ret_q.put(co(cmd, log_cmd=debug, log_op=False))
+    except:
+        ret_q.put("ERROR")
+        log.exception("error")
 
 
 def multicast_run(ips, command, sudo=False, debug=False):
@@ -248,13 +256,11 @@ def multicast_run(ips, command, sudo=False, debug=False):
         t1 = Process(target=multicast_run_task, args=(ip, command, ret_q, sudo, debug))
         t1.start()
         threads.append(t1)
+    for i in range(len(ips)):
+        item = ret_q.get()
+        log.debug(item)
     for t in threads:
         t.join()
-    log.debug("starting to print items")
-    for i in range(len(threads)):
-        item = ret_q.get()
-
-        log.debug(item)
 
 
 # fun is the actual function object and args is a string args
@@ -292,7 +298,7 @@ def clean():
     cc("mkdir -p ~/scripts/my")
 
 def setup_localhost(params=[]):
-    remote_scripts = "/home/sharath.g/scripts"
+    remote_scripts = "/home/sharath/scripts"
 
     cc("rm -rf ~/.bash_profile ~/.xinitrc ~/.xmodmaprc ~/.tmux.conf ")
     cc("ln -s {src} {tgt}".format(src=os.path.join(remote_scripts, "my/linux_setup/linux_profile"), tgt=os.path.join(home, ".bash_profile")))
@@ -320,24 +326,102 @@ def setup_for_app_id(appId):
     ips = [s['primary_ip'] for s in instance_list(appId)]
     copy_this(ips)
     multicast_run_anywhere(ips, "clean")
-    multicast_copy_anywhere(ips, os.path.join(scripts, "my/.vim/"), "/home/sharath.g/scripts/my/.vim/")
-    multicast_copy_anywhere(ips, os.path.join(scripts, "my/linux_setup/"), "/home/sharath.g/scripts/my/linux_setup/")
+    multicast_copy_anywhere(ips, os.path.join(scripts, "my/.vim/"), "/home/sharath/scripts/my/.vim/")
+    multicast_copy_anywhere(ips, os.path.join(scripts, "my/linux_setup/"), "/home/sharath/scripts/my/linux_setup/")
     multicast_run_anywhere(ips, "setup_localhost")
+
+
+
+class myThread (threading.Thread):
+   def __init__(self, ip):
+      threading.Thread.__init__(self)
+      self.ip = ip
+   def run(self):
+       cc(sf("ssh -o StrictHostKeyChecking=no {ip} 'sudo apt-get install --yes --allow-unauthenticated rsync'".format(ip=self.ip)))
+
+
+def install_rsync1(ips):
+    lt = []
+    for ip in ips:
+        t = myThread(ip)
+        t.start()
+        lt.append(t)
+    for t in lt:
+        t.join()
+
+def install_rsync(ips):
+    copy_to_remote(ips[0])
+    execute_on_remote(ips[0], sf("install_rsync1 {}", " ".join(ips)))
+
+
+class goodChecker(threading.Thread):
+    def __init__(self, ip):
+        threading.Thread.__init__(self)
+        self.ip = ip
+        self.good = False
+    def run(self):
+        try:
+            cc(sf("ssh -o StrictHostKeyChecking=no {ip} 'echo hi'", ip=self.ip))
+            self.good = True
+        except:
+            pass
+
+
+def check_ip(ips):
+    lt = []
+    for ip in ips:
+        t = goodChecker(ip)
+        t.start()
+        lt.append(t)
+    good = []
+    bad = []
+    sleep(5)
+    for t in lt:
+        t.join()
+        if t.good:
+            good.append(t.ip)
+        else:
+            bad.append(t.ip)
+
+    print "good"
+    print " ".join(good)
+
+    print "bad"
+    print " ".join(bad)
+
+def split(s, delim="\n"):
+    return filter(None, [x.strip() for x in re.split(delim, s.strip())])
 
 
 def main(params):
-    # setup_for_app_id("specter")
-    ips = [ '10.34.37.13']
-    # ips = [s['primary_ip'] for s in instance_list("dfsio-test") if s['instance_type'] =='d1.xlarge']
+    # setup_for_app_id("pre-prod-fdphadoop")
+    if params:
+        ips = params
+    else:
+        ip = ['35.240.206.89']
+    ips = ['35.240.206.89']
+    # ips = co("pre-prod-fdphadoop").split()
+    # ips = [s['primary_ip'] for s in instance_list("prod-fdg-dart-mirror2-kafka") ]
+    # ips = [s['primary_ip'] for s in instance_list("prod-specter-mirror-maker")]
     # print " ".join(ips)
+    # check_ip(ips)
+    # print len(ips)
     # return
+ 
+
+    install_rsync(ips)
     copy_this(ips)
     multicast_run_anywhere(ips, "clean")
-    multicast_copy_anywhere(ips, os.path.join(scripts, "my/.vim/"), "/home/sharath.g/scripts/my/.vim/")
-    multicast_copy_anywhere(ips, os.path.join(scripts, "my/linux_setup/"), "/home/sharath.g/scripts/my/linux_setup/")
+    multicast_copy_anywhere(ips, os.path.join(scripts, "my/.vim/"), "/home/sharath/scripts/my/.vim/")
+    multicast_copy_anywhere(ips, os.path.join(scripts, "my/linux_setup/"), "/home/sharath/scripts/my/linux_setup/")
     multicast_run_anywhere(ips, "setup_localhost")
 
 if __name__ == '__main__':
+    """
+    python __file__ executes main([])
+    python __file__ func executes func()
+    python __file__ func param1 param2 executes func([param1, param2])
+    """
     method = 'main'
     num_args = len(sys.argv)
     if num_args == 1 or sys.argv[1] not in globals():

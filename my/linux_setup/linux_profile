@@ -1,5 +1,12 @@
 # Comment out below to use mac apache instead of custom install
 #export PATH=/usr/local/apache2/bin/:$PATH
+export PATH=/home/sharath/code/arcanist/bin:/home/sharath/.local/bin:/home/sharath/bin:/home/sharath/Downloads/hadoop-2.9.2/bin:/home/sharath/Downloads/hadoop-2.9.2/sbin:$PATH
+
+# blue
+PS1='\[\e[1;34m\][\u@\h $(pwd)]\$\[\e[0m\] '
+
+
+# yellow
 PS1='\[\e[1;33m\][\u@\h $(pwd)]\$\[\e[0m\] '
 #PS1='\[\e[1;35m\][\u@\h \W]\$\[\e[0m\] '
 
@@ -12,9 +19,9 @@ export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock;
 # change ctrl-c to ctrl-u
 # stty intr ^U
 alias rs="sudo /usr/local/apache2/bin/apachectl -k  restart"
-alias ip='ifconfig  | grep "inet addr:"| grep -v "127.0.0.1" | cut -d: -f2 | cut -d" " -f1'
+#alias ip='ifconfig  | grep "inet addr:"| grep -v "127.0.0.1" | cut -d: -f2 | cut -d" " -f1'
 #show dev-d42sharath1 osd | grep primary_ip | cut -d ":" -f 2 |  sed 's/"//g' | sed 's/,//g' | xargs cssh  
-source ~/git-completion.bash
+#source ~/git-completion.bash
 
 #export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
 
@@ -49,6 +56,7 @@ alias fgrep='fgrep --color=auto'
 # handy short cuts #
 alias h='cat ~/.bash_eternal_history'
 alias hg='cat ~/.bash_eternal_history | grep $@'
+alias hga='cat ~/.bash_eternal_history ~/flipkart_bash_eternal_history | grep $@'
 alias j='jobs -l'
 
 export HISTSIZE=

@@ -42,7 +42,7 @@ def execute_on_remote(ip, command):
 
 
 def for_each(appId):
-    s = co("/home/sharath.g/bin/kloud-cli instance list -e 10.33.65.0 --appId={appId} --json".format(appId=appId))
+    s = co("/home/sharath.g/bin/kloud-cli instance list -e 10.47.255.6 --appId={appId} --json".format(appId=appId))
     s = json.loads(s)
     for obj in s:
         ip = obj['primary_ip']

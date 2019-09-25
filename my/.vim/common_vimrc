@@ -142,7 +142,7 @@ set tm=500
 syntax enable 
 
 try
-    colorscheme desert
+    colorscheme elflord
 catch
 endtry
 
@@ -283,6 +283,16 @@ map <leader>bd :Bclose<cr>
 
 " Close all the buffers
 map <leader>ba :1,1000 bd!<cr>
+
+" vim file browser! this may be the answer to lenovos shitty trackpad
+
+" open files in a new vertical split
+let g:netrw_browse_split = 4
+
+" set the width of the explorer in percentage
+let g:netrw_winsize = 25
+
+
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
