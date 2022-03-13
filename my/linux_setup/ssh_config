@@ -1,3 +1,7 @@
 Host *
   ForwardAgent yes
   StrictHostKeyChecking no
+# BEGIN CSSHCTL MANAGED BLOCK
+Host bastion.*
+  ForwardAgent yes
+# END CSSHCTL MANAGED BLOCK
