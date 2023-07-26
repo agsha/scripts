@@ -1,8 +1,6 @@
 # Comment out below to use mac apache instead of custom install
 #export PATH=/usr/local/apache2/bin/:$PATH
 export PATH=/home/sharath/code/arcanist/bin:/home/sharath/.local/bin:/home/sharath/bin:/home/sharath/Downloads/hadoop-2.9.2/bin:/home/sharath/Downloads/hadoop-2.9.2/sbin:/home/sharath/.pyenv/bin:/home/sharath/Downloads/gradle-7.0/bin:/home/sharath/Downloads/go/bin:$PATH
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
 export GRADLE_HOME=/home/sharath/Downloads/gradle-7.0
 
 # blue
@@ -216,6 +214,8 @@ hcmnt() {
 
     # strip off the old ### comment if there was one so they don't accumulate
     # then build the string (if text or extra aren't empty, add them plus a space)
+    hcmnt="${hcmnt% ### *}"
+
     comment="### ${exit_status:+$exit_status }${hostname:+$hostname }${text:+$text }${extra:+$extra }$cwd"
     history -d $histline
     history -s "$hcmnt $comment "
