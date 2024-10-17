@@ -1,6 +1,7 @@
 Host *
   ForwardAgent yes
   StrictHostKeyChecking no
+  PubkeyAcceptedKeyTypes +ssh-rsa-cert-v01@openssh.com
 # BEGIN CSSHCTL MANAGED BLOCK
 Host bastion.*
   ForwardAgent yes

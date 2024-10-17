@@ -383,11 +383,11 @@ def check_ip(ips):
         else:
             bad.append(t.ip)
 
-    print "good"
-    print " ".join(good)
+    print ("good")
+    print (" ".join(good))
 
-    print "bad"
-    print " ".join(bad)
+    print ("bad")
+    print (" ".join(bad))
 
 def split(s, delim="\n"):
     return filter(None, [x.strip() for x in re.split(delim, s.strip())])
@@ -399,7 +399,7 @@ def main(params):
         ips = params
     else:
         ip = ['35.240.206.89']
-    ips = ['35.240.206.89']
+    ips = ['174.138.121.200']
     # ips = co("pre-prod-fdphadoop").split()
     # ips = [s['primary_ip'] for s in instance_list("prod-fdg-dart-mirror2-kafka") ]
     # ips = [s['primary_ip'] for s in instance_list("prod-specter-mirror-maker")]

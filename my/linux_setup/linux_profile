@@ -1,12 +1,15 @@
 # Comment out below to use mac apache instead of custom install
 #export PATH=/usr/local/apache2/bin/:$PATH
-export PATH=/home/sharath/code/arcanist/bin:/home/sharath/.local/bin:/home/sharath/bin:/home/sharath/Downloads/hadoop-2.9.2/bin:/home/sharath/Downloads/hadoop-2.9.2/sbin:/home/sharath/.pyenv/bin:/home/sharath/Downloads/gradle-7.0/bin:/home/sharath/Downloads/go/bin:$PATH
+export PATH=/home/sharath/os/arcanist/bin:/home/sharath/.local/bin:/home/sharath/bin:/home/sharath/Downloads/hadoop-2.9.2/bin:/home/sharath/Downloads/hadoop-2.9.2/sbin:/home/sharath/.pyenv/bin:/home/sharath/Downloads/gradle-6.6.1/bin:/home/sharath/Downloads/go/bin:/home/sharath/softwares/apache-maven-3.8.6/bin:/home/sharath/.bcl/cli:$PATH
+
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-export GRADLE_HOME=/home/sharath/Downloads/gradle-7.0
-
+export GRADLE_HOME=/home/sharath/Downloads/gradle-6.6.1
 # blue
 PS1='\[\e[1;34m\][\u@\h $(pwd)]\$\[\e[0m\] '
+export M2_HOME=/home/sharath/.m2
+export MAVEN_HOME=/home/sharath/softwares/apache-maven-3.8.6
+
 
 
 # yellow
@@ -189,7 +192,7 @@ hcmnt() {
     # save history line number for workaround for bash history newline bug
     histline="${hcmnt%  *}"
 
-    hcmnt="${hcmnt# *[0-9]*  }"     # strip off the history line number
+    hcmnt="${hcmnt#*[0-9]*  }"     # strip off the history line number
 
     if [[ -z $NoneOpt ]]            # are we adding the directory?
     then
@@ -216,6 +219,8 @@ hcmnt() {
 
     # strip off the old ### comment if there was one so they don't accumulate
     # then build the string (if text or extra aren't empty, add them plus a space)
+    hcmnt="${hcmnt% ### *}"
+
     comment="### ${exit_status:+$exit_status }${hostname:+$hostname }${text:+$text }${extra:+$extra }$cwd"
     history -d $histline
     history -s "$hcmnt $comment "
@@ -238,17 +243,45 @@ export hcmntextra='date "+%Y-%m-%d %R"'
 
 #host name autocomplete
 complete -W "$(echo `cat ~/.ssh/known_hosts | cut -f 1 -d ' ' | sed -e s/,.*//g | uniq | grep -v '\['`)" ssh
+complete -C '/usr/local/bin/aws_completer' aws
 
 ## cd ls
 function cs () { cd "$@" && ls; }
 export PATH=$PATH:/f/usr/local/go/bin
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-export PKICTL_MEMBER_CONTEXT=sgururaj@indodana.com@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod
-export PKICTL_MEMBER_CERT_FILE=/home/sharath/.certs/certs/member/sgururaj@indodana.com@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod/sgururaj@indodana.com@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.crt
-export PKICTL_MEMBER_KEY_FILE=/home/sharath/.certs/certs/member/sgururaj@indodana.com@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod/.private/sgururaj@indodana.com@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.key
-export PKICTL_MEMBER_CA_CERT_FILE=/home/sharath/.certs/certs/member/sgururaj@indodana.com@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod/sgururaj@indodana.com@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.cert-ca-chain.crt
-export PKICTL_MEMBER_ROOT_CA_CERT_FILE=/home/sharath/.certs/certs/member/sgururaj@indodana.com@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod/sgururaj@indodana.com@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.root-ca.crt
-export PKICTL_MEMBER_SIGNER_CA_CERT_FILE=/home/sharath/.certs/certs/member/sgururaj@indodana.com@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod/sgururaj@indodana.com@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.intermediate-ca.crt
-export PKICTL_MEMBER_PKCS12_FILE=/home/sharath/browser-certificates/sgururaj@indodana.com@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.p12
-export PKICTL_MEMBER_PKCS12_KEYSTORE_PASSWORD=cermati
+#export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 
+export PKICTL_USERNAME=sgururaj@indodanafintech.co.id
+
+export PKICTL_MEMBER_CONTEXT=sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod
+export PKICTL_MEMBER_CERT_FILE=/home/sharath/.certs/certs/member/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.crt
+export PKICTL_MEMBER_KEY_FILE=/home/sharath/.certs/certs/member/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod/.private/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.key
+export PKICTL_MEMBER_CA_CERT_FILE=/home/sharath/.certs/certs/member/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.cert-ca-chain.crt
+export PKICTL_MEMBER_ROOT_CA_CERT_FILE=/home/sharath/.certs/certs/member/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.root-ca.crt
+export PKICTL_MEMBER_SIGNER_CA_CERT_FILE=/home/sharath/.certs/certs/member/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.intermediate-ca.crt
+export PKICTL_MEMBER_PKCS12_FILE=/home/sharath/browser-certificates/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.p12
+export ARCANIST_TLS_CERT=/home/sharath/.certs/certs/member/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.crt
+export ARCANIST_TLS_KEY=/home/sharath/.certs/certs/member/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod/.private/sgururaj@indodanafintech.co.id@86c5ec6880a7442d8fa2aa92ca24ce98@pkictl-prod.key
+# arc set-config https.user-cert "$ARCANIST_TLS_CERT"
+# arc set-config https.user-key "$ARCANIST_TLS_KEY"
+
+
+#export PKICTL_MEMBER_PKCS12_KEYSTORE_PASSWORD=
+#export GRADLE_OPTS="-Djavax.net.ssl.trustStore=$HOME/.gradle.truststore.jks \
+#  -Djavax.net.ssl.trustStoreType=jks \
+#  -Djavax.net.ssl.keyStore=${PKICTL_MEMBER_PKCS12_FILE} \
+#  -Djavax.net.ssl.keyStoreType=pkcs12 \
+#  -Djavax.net.ssl.keyStorePassword=${PKICTL_MEMBER_PKCS12_KEYSTORE_PASSWORD}"
+
+#MAVEN OPTIONS (FOR NEXUS)
+export MAVEN_OPTS="-Djavax.net.ssl.trustStore=$HOME/.gradle.truststore.jks \
+  -Djavax.net.ssl.trustStoreType=jks \
+  -Djavax.net.ssl.keyStore=${PKICTL_MEMBER_PKCS12_FILE} \
+  -Djavax.net.ssl.keyStoreType=pkcs12 \
+  -Djavax.net.ssl.keyStorePassword=${PKICTL_MEMBER_PKCS12_KEYSTORE_PASSWORD}"
+
+
+
+# >>> coursier install directory >>>
+export PATH="$PATH:/home/sharath/.local/share/coursier/bin"
+# <<< coursier install directory <<<

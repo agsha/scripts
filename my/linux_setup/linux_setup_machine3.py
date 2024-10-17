@@ -365,11 +365,14 @@ def split(s, delim="\n"):
 
 def main(params):
     # setup_for_app_id("pre-prod-fdphadoop")
+    # setup_localhost()
+    # return
     if params:
         ips = params
     else:
-        ip = ['35.240.206.89']
-    ips = ['174.138.121.200']
+        ip = ['10.33.0.95']
+    ips = ['174.138.121.200', '192.168.29.27', '192.168.29.38']
+    ips = ['10.33.0.29']
     # ips = co("pre-prod-fdphadoop").split()
     # ips = [s['primary_ip'] for s in instance_list("prod-fdg-dart-mirror2-kafka") ]
     # ips = [s['primary_ip'] for s in instance_list("prod-specter-mirror-maker")]
